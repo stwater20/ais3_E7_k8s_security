@@ -8,7 +8,7 @@ import urllib3
 import re
 import yaml
 import os
-
+import shutil
 def yaml2json(file):
     with open(file,'r') as yaml_in:
         json_data = yaml.load(yaml_in,Loader=yaml.FullLoader)
@@ -19,6 +19,7 @@ def readfile(filename):
     f = open(filename,'r')
     data = json.load(f)
     f.close()
+
     return data
 
 def getRemark(num):
@@ -58,7 +59,9 @@ def handle(args):
         print()
         x = int(input("Choose Number : "))
         print()
+        shutil.copyfile(args.reqfile,"./test/test.yaml") #複製檔案到test裏面給pytest
         diff_compare(getFile(x))
+        os.system("pytest test_pod.py")
     
 
 def display_banner():
