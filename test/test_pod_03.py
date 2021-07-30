@@ -7,7 +7,7 @@ def yaml2json(file):
         return json_data
 
 diff_a  = yaml2json("./test/test.yaml")
-diff_b  = yaml2json("./Manifest/02.yaml")
+diff_b  = yaml2json("./Manifest/03.yaml")
 
 
 def test_label_exisit():
