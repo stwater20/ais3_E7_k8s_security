@@ -4,8 +4,3 @@ metadata:
   name: untitled-policy
 spec:
   podSelector: {}
-  policyTypes:
-    - Ingress
-    - Egress
-  ingress: []
-  egress: []
