@@ -1,6 +1,6 @@
 # k8s pod network policy tools
 
----
+
 
 By default, pods are non-isolated; they accept traffic from any source.
 
@@ -11,7 +11,7 @@ Network policies do not conflict; they are additive. If any policy or policies s
 For a network flow between two pods to be allowed, both the egress policy on the source pod and the ingress policy on the destination pod need to allow the traffic. If either the egress policy on the source, or the ingress policy on the destination denies the traffic, the traffic will be denied.
 
 
-'''
+<code>
 
  _   ___                    _            _                  _               _ _           _            _    
 | |_( _ )___  _ __  ___  __| |  _ _  ___| |___ __ _____ _ _| |__  _ __  ___| (_)__ _  _  | |_ ___  ___| |___
@@ -28,4 +28,4 @@ Examples:
     python k8spod.py -i test.yaml
     
 
-'''
+</code>
