@@ -17,8 +17,14 @@ def yaml2json(file):
 def readfile(filename):
     f = open(filename,'r')
     data = json.load(f)
-    print(data[0])
     f.close()
+    return data
+
+
+def diff_compare(file):
+    pass
+
+
 
 def display_banner():
     print(" _   ___                    _            _                  _               _ _           _            _    ")
