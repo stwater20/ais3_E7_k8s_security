@@ -7,6 +7,7 @@ import logging
 import urllib3
 import re
 import yaml
+import os
 
 def yaml2json(file):
     with open(file,'r') as yaml_in:
@@ -20,11 +21,45 @@ def readfile(filename):
     f.close()
     return data
 
+def getRemark(num):
+    data = readfile("remark.json")
+    return data[num-1]["dec"]
+
+
+def getFile(num):
+    num_s=str(num)
+    while(len(num_s)<2):
+        num_s = "0"+str(num)
+    tempfile = "./Manifest/"+num_s+".yaml"
+    print(getRemark(num))
+    return yaml2json(tempfile)
 
 def diff_compare(file):
     pass
 
-
+def handle(args):
+    if args.reqfile:
+        print("")
+        print("")
+        print("Choose the template you want to compare... ")
+        print("-------------------")
+        print("01. DENY all traffic to an application")
+        print("02. LIMIT traffic to an application")
+        print("03. DENY all non-whitelisted traffic to a namespace")
+        # print("04. DENY all traffic from other namespaces")
+        # print("05. ALLOW traffic to an application from all namespaces")
+        # print("06. ALLOW all traffic from a namespace")
+        # print("07. ALLOW traffic from some pods in another namespace")
+        # print("08. ALLOW traffic from external clients")
+        # print("09. ALLOW traffic only to a port of an application")
+        # print("10. ALLOW traffic from apps using multiple selectors")
+        # print("11. DENY egress traffic from an application")
+        # print("12. DENY all non-whitelisted traffic from a namespace")
+        print()
+        x = int(input("Choose Number : "))
+        print()
+        diff_compare(getFile(x))
+    
 
 def display_banner():
     print(" _   ___                    _            _                  _               _ _           _            _    ")
@@ -37,10 +72,12 @@ def display_banner():
 
 def parse_args():
     example_text = '''Examples:
-    python k8spod.py -i test.yaml
+    python k8spod.py -i test.yaml       # compare defult template
+    pythno k8spod.py -i test.yaml -c 1  # comapre test.yaml with your choose tempalte of network policy
     '''
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-i', action ='store', dest='reqfile', help="Pod Network Policy Request file")
+    parser.add_argument('-c', action ='store', dest='tempNum', help="Choose The Template Num to compare yaml file")
     results = parser.parse_args()
     
     if results.reqfile == None:
@@ -56,7 +93,6 @@ def parse_args():
 if __name__ == "__main__":
     # disable ssl warning for self signed certificate
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
     # enable custom logging
     logging.basicConfig(level=logging.INFO, format='[%(levelname)s]:%(message)s')
     logging.addLevelName( logging.WARNING, "\033[1;31m%s\033[1;0m" % logging.getLevelName(logging.WARNING))
@@ -64,4 +100,5 @@ if __name__ == "__main__":
     display_banner()
     args = parse_args()
     # readfile(args.reqfile)
-    print(yaml2json(args.reqfile))
+    handle(args)
+    # print(yaml2json(args.reqfile))

@@ -1,0 +1,14 @@
+[
+    {
+        "num": "01",
+        "dec": "In the manifest above, we target Pods with app=web label to police the network. This manifest file is missing the spec.ingress field. Therefore it is not allowing any traffic into the Pod.\r\n\r\nIf you create another NetworkPolicy that gives some Pods access to this application directly or indirectly, this NetworkPolicy will be obsolete.\r\n\r\nIf there is at least one NetworkPolicy with a rule allowing the traffic, it means the traffic will be routed to the pod regardless of the policies blocking the traffic."
+    },
+    {
+        "num": "02",
+        "dec": "To Create Networking Policies allowing traffic from only certain Pods.\r\n\r\nTraffic is blocked!\r\n\r\nTest the Network Policy is allowing the traffic, by running a Pod with the your app defination label"
+    },
+    {
+        "num":"03",
+        "dec": "Use Case: This is a fundamental policy, blocking all cross-pod networking other than the ones whitelisted via the other Network Policies you deploy.\r\n\r\nConsider applying this manifest to any namespace you deploy workloads to (anything but kube-system).\r\n\r\nBest Practice: This policy will give you a default \"deny all\" functionality. This way, you can clearly identify which components have dependency on which components and deploy Network Policies which can be translated to dependency graphs between components."
+    }
+]
