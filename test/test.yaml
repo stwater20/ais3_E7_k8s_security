@@ -8,17 +8,4 @@ spec:
     - Ingress
     - Egress
   ingress: []
-  egress:
-    - to:
-        - podSelector:
-            matchLabels:
-              app: frontend
-              env: prod
-      ports:
-        - port: 80
-    - to:
-        - podSelector:
-            matchLabels:
-              app: frondend
-      ports:
-        - port: 80
+  egress: []
