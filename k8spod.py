@@ -78,7 +78,15 @@ def handle(args):
         print()
         shutil.copyfile(args.reqfile,"./test/test.yaml") #複製檔案到test裏面給pytest
         diff_compare((x))
-    
+    if args.tempNum and args.outfile:
+        num_s = args.tempNum
+        while(len(num_s)<2):
+            num_s = "0"+str(num_s)
+        temp = "./Manifest/"+num_s+".yaml"
+        shutil.copyfile(temp,args.outfile)
+        print("=======================================")
+        print("File Export Success!")
+            
 
 
 
@@ -94,14 +102,16 @@ def display_banner():
 def parse_args():
     example_text = '''Examples:
     python k8spod.py -i test.yaml       # compare defult template
-    pythno k8spod.py -i test.yaml -c 1  # comapre test.yaml with your choose tempalte of network policy
+    pythno k8spod.py -i test.yaml -c 1  # comapre test.yaml with your choose template of network policy
+    python k8spod.py -c 1 -o output.yaml # choose template of network policy then output dest yaml
     '''
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-i', action ='store', dest='reqfile', help="Pod Network Policy Request file")
     parser.add_argument('-c', action ='store', dest='tempNum', help="Choose The Template Num to compare yaml file")
     parser.add_argument('-l', '--list', action='store_true', help='Lists Network Policies')
+    parser.add_argument('-o', action ='store', dest='outfile', help="Export YAML Template File")
     results = parser.parse_args()
-    
+    parser.print_help()
     # if results.reqfile == None:
     #     parser.print_help()
     #     exit()
