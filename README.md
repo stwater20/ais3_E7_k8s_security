@@ -9,7 +9,9 @@ Pods become isolated by having a NetworkPolicy that selects them. Once there is 
 Network policies do not conflict; they are additive. If any policy or policies select a pod, the pod is restricted to what is allowed by the union of those policies' ingress/egress rules. Thus, order of evaluation does not affect the policy result.
 
 For a network flow between two pods to be allowed, both the egress policy on the source pod and the ingress policy on the destination pod need to allow the traffic. If either the egress policy on the source, or the ingress policy on the destination denies the traffic, the traffic will be denied.
+---
 
+So, this tools can scan your network policy of pod config . 
 
 ```
 
