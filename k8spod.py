@@ -6,15 +6,22 @@ from datetime import datetime
 import logging
 import urllib3
 import re
+import yaml
+
+def yaml2json(file):
+    with open(file,'r') as yaml_in:
+        json_data = yaml.load(yaml_in,Loader=yaml.FullLoader)
+        return json_data
 
 
 def readfile(filename):
-    f = open('filename','r')
-    line = f.readlines()
-    print(line)
+    f = open(filename,'r')
+    data = json.load(f)
+    print(data[0])
     f.close()
 
 def display_banner():
+    print(" _   ___                    _            _                  _               _ _           _            _    ")
     print("| |_( _ )___  _ __  ___  __| |  _ _  ___| |___ __ _____ _ _| |__  _ __  ___| (_)__ _  _  | |_ ___  ___| |___") 
     print("| / / _ (_-< | '_ \/ _ \/ _` | | ' \/ -_)  _\ V  V / _ \ '_| / / | '_ \/ _ \ | / _| || | |  _/ _ \/ _ \ (_-<")
     print("|_\_\___/__/ | .__/\___/\__,_| |_||_\___|\__|\_/\_/\___/_| |_\_\ | .__/\___/_|_\__|\_, |  \__\___/\___/_/__/")
@@ -36,6 +43,10 @@ def parse_args():
 
     return results
 
+
+
+
+
 if __name__ == "__main__":
     # disable ssl warning for self signed certificate
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -46,4 +57,5 @@ if __name__ == "__main__":
     logging.addLevelName( logging.ERROR, "\033[1;41m%s\033[1;0m" % logging.getLevelName(logging.ERROR))
     display_banner()
     args = parse_args()
-    print(args.reqfile)
+    # readfile(args.reqfile)
+    print(yaml2json(args.reqfile))
