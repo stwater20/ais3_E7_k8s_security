@@ -86,7 +86,12 @@ def handle(args):
         shutil.copyfile(temp,args.outfile)
         print("=======================================")
         print("File Export Success!")
-            
+    if args.deploy:
+        temp = "kubectl apply -f " + args.deploy
+        # print(temp)
+        os.system(temp)
+        print("=======================================")
+        print("File Deploy Success!")
 
 
 
@@ -104,12 +109,14 @@ def parse_args():
     python k8spod.py -i test.yaml       # compare defult template
     pythno k8spod.py -i test.yaml -c 1  # comapre test.yaml with your choose template of network policy
     python k8spod.py -c 1 -o output.yaml # choose template of network policy then output dest yaml
+    python k8spod.py -f test.yaml # apply test.yaml to k8s pod network policy
     '''
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-i', action ='store', dest='reqfile', help="Pod Network Policy Request file")
     parser.add_argument('-c', action ='store', dest='tempNum', help="Choose The Template Num to compare yaml file")
     parser.add_argument('-l', '--list', action='store_true', help='Lists Network Policies')
     parser.add_argument('-o', action ='store', dest='outfile', help="Export YAML Template File")
+    parser.add_argument('-f', action="store",dest='deploy', help="Depoly YAML to k8s network policy.")
     results = parser.parse_args()
     parser.print_help()
     # if results.reqfile == None:
