@@ -15,7 +15,4 @@ def test_label_exisit():
     assert 'apiVersion' in diff_a
     assert 'metadata' in diff_a
     assert 'spec' in diff_a
-
-def test_spec_security():
-    assert 'policyTypes' in diff_a["spec"]
-    print("123")
+    

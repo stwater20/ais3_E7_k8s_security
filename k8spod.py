@@ -35,18 +35,35 @@ def getFile(num):
     print(getRemark(num))
     return yaml2json(tempfile)
 
-def diff_compare(file):
+def diff_compare(num):
+    num_s=str(num)
+    while(len(num_s)<2):
+        num_s = "0"+str(num)
+    temp = "pytest -rP ./test/test_pod_"+num_s+".py"
+    os.system("pytest -rP ./test/test_pod_00.py")
+    os.system(temp)
     pass
 
 def handle(args):
-    if args.reqfile:
+    if args.list:
+        print()
+        print("01. DENY all traffic to an application")
+        print("02. LIMIT traffic to an application")
+        print("03. DENY all non-whitelisted traffic to a namespace (Zero Trust Policy)")
+    elif args.reqfile and args.tempNum:
+        shutil.copyfile(args.reqfile,"./test/test.yaml") #複製檔案到test裏面給pytest
+        num_s = args.tempNum
+        while(len(num_s)<2):
+            num_s = "0"+str(num_s)
+        diff_compare(num_s)
+    elif args.reqfile:
         print("")
         print("")
         print("Choose the template you want to compare... ")
         print("-------------------")
         print("01. DENY all traffic to an application")
         print("02. LIMIT traffic to an application")
-        print("03. DENY all non-whitelisted traffic to a namespace")
+        print("03. DENY all non-whitelisted traffic to a namespace (Zero Trust Policy)")
         # print("04. DENY all traffic from other namespaces")
         # print("05. ALLOW traffic to an application from all namespaces")
         # print("06. ALLOW all traffic from a namespace")
@@ -60,9 +77,10 @@ def handle(args):
         x = int(input("Choose Number : "))
         print()
         shutil.copyfile(args.reqfile,"./test/test.yaml") #複製檔案到test裏面給pytest
-        diff_compare(getFile(x))
-        os.system("pytest test_pod.py")
+        diff_compare((x))
     
+
+
 
 def display_banner():
     print(" _   ___                    _            _                  _               _ _           _            _    ")
@@ -81,11 +99,12 @@ def parse_args():
     parser = argparse.ArgumentParser(epilog=example_text, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-i', action ='store', dest='reqfile', help="Pod Network Policy Request file")
     parser.add_argument('-c', action ='store', dest='tempNum', help="Choose The Template Num to compare yaml file")
+    parser.add_argument('-l', '--list', action='store_true', help='Lists Network Policies')
     results = parser.parse_args()
     
-    if results.reqfile == None:
-        parser.print_help()
-        exit()
+    # if results.reqfile == None:
+    #     parser.print_help()
+    #     exit()
 
     return results
 
